@@ -12,11 +12,10 @@ Base = declarative_base(metadata = metadata)
 player_item = Table(
     'player_items',
     Base.metadata,
-    Column('id', Integer(), primary_key = True),
-    Column('player_id', ForeignKey('players.id'), primary_key = True),
-    Column('item_id', ForeignKey('items.id'), primary_key = True),
-    extend_existing = True
-)
+    Column('id', Integer(), primary_key=True),
+    Column('player_id', ForeignKey('players.id')),
+    Column('item_id', ForeignKey('items.id')),
+    extend_existing=True)
 
 class Player(Base):
     __tablename__ = 'players'
@@ -25,7 +24,7 @@ class Player(Base):
     dead = Column(Boolean())
 
     location_id = Column(Integer(), ForeignKey('locations.id'))
-    items = relationship('Item', secondary = player_item, back_populates = 'players')
+    items = relationship('Item', secondary=player_item, back_populates='players')
 
     def __repr__(self):
         return f'Player {self.id}'
