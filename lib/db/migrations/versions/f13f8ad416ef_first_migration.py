@@ -1,8 +1,8 @@
-"""create database
+"""first migration
 
-Revision ID: 76d7eee24815
+Revision ID: f13f8ad416ef
 Revises: 
-Create Date: 2023-05-16 21:22:38.275584
+Create Date: 2023-05-17 11:37:28.787120
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '76d7eee24815'
+revision = 'f13f8ad416ef'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -41,6 +41,7 @@ def upgrade() -> None:
     )
     op.create_table('players',
     sa.Column('id', sa.Integer(), nullable=False),
+    sa.Column('name', sa.String(), nullable=True),
     sa.Column('dead', sa.Boolean(), nullable=True),
     sa.Column('location_id', sa.Integer(), nullable=True),
     sa.ForeignKeyConstraint(['location_id'], ['locations.id'], name=op.f('fk_players_location_id_locations')),
@@ -48,11 +49,11 @@ def upgrade() -> None:
     )
     op.create_table('player_items',
     sa.Column('id', sa.Integer(), nullable=False),
-    sa.Column('player_id', sa.Integer(), nullable=False),
-    sa.Column('item_id', sa.Integer(), nullable=False),
+    sa.Column('player_id', sa.Integer(), nullable=True),
+    sa.Column('item_id', sa.Integer(), nullable=True),
     sa.ForeignKeyConstraint(['item_id'], ['items.id'], name=op.f('fk_player_items_item_id_items')),
     sa.ForeignKeyConstraint(['player_id'], ['players.id'], name=op.f('fk_player_items_player_id_players')),
-    sa.PrimaryKeyConstraint('id', 'player_id', 'item_id')
+    sa.PrimaryKeyConstraint('id')
     )
     # ### end Alembic commands ###
 

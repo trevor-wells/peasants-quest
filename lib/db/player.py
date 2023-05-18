@@ -1,25 +1,29 @@
-from models import User
+from models import Player, session
 
-def create_table(base, engine):
-    base.metadata.create_all(engine)
-
-def save(session, user):
-    session.add(user)
+def give_player_name(player, name):
+    player.name = name
+    session.add(player)
     session.commit()
 
-def get_all(session):
-    return session.query(User).all()
+def find_player_by_name(name):
+    my_player = session.query(Player).filter(Player.name == name).first()
+    if not my_player:
+        my_player = Player(
+        name = name,
+        location_id = 14)
+        session.add(my_player)
+        session.commit()
+    return my_player
 
-def find_by_name(session, name):
-    return session.query(User).filter(User.name == name).first()
+def get_all_players():
+    return session.query(Player).all()
 
-def find_by_id(session, id):
-    return session.query(User).filter(User.id == id).first()
-
-def find_by_name_and_breed(session, name, breed):
-    return session.query(User).filter(User.name == name and User.breed == breed).first()
-
-def update_breed(session, user, breed):
-    User.breed = breed
-    session.add(user)
+def update_player_location(player, new_id):
+    player.location_id = new_id
+    session.add(player)
     session.commit()
+
+def delete_player(player):
+    session.delete(player)
+    session.commit()
+
