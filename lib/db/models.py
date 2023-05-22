@@ -73,6 +73,7 @@ class Character(Base):
     
     id = Column(Integer(), primary_key=True)
     name = Column(String())
+    description = Column(String())
     phrase1 = Column(String())
     phrase2 = Column(String())
     phrase3 = Column(String())
